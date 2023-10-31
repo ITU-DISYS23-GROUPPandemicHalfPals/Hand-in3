@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package chat;
+
+option go_package = "chat/chat";
+
+message RequestMessage {
+  int64  lamport = 1;
+  string name    = 2;
+}
+
+message ResponseMessage {
+  int64  lamport = 1;
+  string name    = 2;
+}
+
+message PublishMessage {
+  int64  lamport = 1;
+  string body    = 2;
+}
+
+message BroadcastMessage {
+  int64  lamport = 1;
+  string name    = 2;
+  string body    = 3;
+}
+
+service Chat {
+  rpc Join(RequestMessage) returns (ResponseMessage) {}
+  rpc Leave(RequestMessage) returns (ResponseMessage) {}
+  rpc Publish(stream PublishMessage) returns (stream BroadcastMessage) {}
+}
